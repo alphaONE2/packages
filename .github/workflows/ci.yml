@@ -1,0 +1,22 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  version:
+    name: Version Check
+    runs-on: windows-2019
+    if: github.event == 'pull_request'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
