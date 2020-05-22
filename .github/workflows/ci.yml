@@ -14,7 +14,7 @@ jobs:
   version:
     name: Version Check
     runs-on: windows-2019
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request'
     steps:
     - name: Checkout
       uses: actions/checkout@v2
