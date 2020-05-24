@@ -1,5 +1,5 @@
 <package>
   <name></name>
   <version>1</version>
-  <type>foo</type>
+  <type>service</type>
 </package>
