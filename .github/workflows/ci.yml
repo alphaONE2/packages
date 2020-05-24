@@ -33,11 +33,11 @@ jobs:
     - name: Validate Lua syntax
       run: .github/workflows/check-syntax
   version_check:
-    name: Check Version Numbers
+    name: Check Version
     runs-on: windows-2019
     if: github.event_name == 'pull_request'
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.pull_request.head.sha }}
+        fetch-depth: 2
