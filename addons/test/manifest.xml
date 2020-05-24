@@ -1,5 +1,5 @@
 <package>
   <name>test</name>
   <version>1</version>
-  <type>service</type>
+  <type>addon</type>
 </package>
