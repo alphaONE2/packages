@@ -16,8 +16,6 @@ $exitCode = 0
 function Test-ManifestValid {
   param($name, $directory)
 
-  Write-Host -NoNewline ("Validating manifest for package" +
-    " `"$directory/$name`"...")
   $manifestPath = if (Join-Path $_.FullName '.native' |
                       Test-Path -PathType Container) {
     Join-Path $_.FullName 'manifest.tpl.xml'
@@ -57,16 +55,14 @@ function Test-ManifestValid {
             " `"$($manifest.package.type)`"" +
             " but is in the `"$directory`" directory.")
           $script:exitCode = 1
-        } else {
-          Write-Host -ForegroundColor Green ' OK'
         }
       }
     } catch [System.Management.Automation.MethodInvocationException] {
-      Write-Host ''
+      Write-Host -ForegroundColor Red  "Error loading file `"$manifestPath`""
       Write-Host -ForegroundColor Red $_.Exception.InnerException.Message
       $script:exitCode = 1
     } catch {
-      Write-Host ''
+      Write-Host -ForegroundColor Red  "Error loading file `"$manifestPath`""
       Write-Host -ForegroundColor Red $_.Exception.Message
       $script:exitCode = 1
     }
