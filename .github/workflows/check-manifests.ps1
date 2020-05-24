@@ -55,6 +55,15 @@ function Test-ManifestValid {
             " `"$($manifest.package.type)`"" +
             " but is in the `"$directory`" directory.")
           $script:exitCode = 1
+        } else {
+          try {
+            [void]([Version]$manifest.package.version)
+          } catch {
+            Write-Host -ForegroundColor Red `
+              ("`n`Package `"$($name)`" has invalid version string" +
+              " `"$($manifest.package.version)`".")
+            $script:exitCode = 1
+          }
         }
       }
     } catch [System.Management.Automation.MethodInvocationException] {
