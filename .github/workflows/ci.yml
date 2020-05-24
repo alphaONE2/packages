@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   manifest_check:
-    name: Manifest Check
+    name: Validate Manifest
     runs-on: windows-2019
     steps:
     - name: Checkout
@@ -20,22 +20,20 @@ jobs:
     - name: Check Manifests
       run: .github/workflows/check-manifests
   syntax_check:
-    name: Syntax Check
+    name: Validate Syntax
     runs-on: windows-2019
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        path: files
     - name: Checkout LuaJIT
       with:
         repository: luapower/luajit
-        path: tools
+        path: .tools
       uses: actions/checkout@v2
-    - name: Check Syntax
+    - name: Validate Lua Syntax
       run: .github/workflows/check-syntax
   version_check:
-    name: Version Check
+    name: Check Version Numbers
     runs-on: windows-2019
     if: github.event_name == 'pull_request'
     steps:
