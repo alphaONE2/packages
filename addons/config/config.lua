@@ -7,7 +7,7 @@ local defaults = {
     gameplay = {
         auto_target = true,
         inventory = {
-            sort = false
+            sort = false,
             type = 1,
         },
     },
