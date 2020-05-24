@@ -25,10 +25,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        path: files
     - name: Checkout LuaJIT
       with:
         repository: luapower/luajit
-        path: ../tools
+        path: tools
       uses: actions/checkout@v2
     - name: Check Syntax
       run: .github/workflows/check-syntax
