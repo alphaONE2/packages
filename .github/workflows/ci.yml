@@ -61,5 +61,5 @@ jobs:
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v2
         with:
-          name: binaries
+          name: packages
           path: .staging/
