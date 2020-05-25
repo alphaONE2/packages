@@ -14,13 +14,14 @@ try {
 $exitCode = 0
 
 function Test-ManifestValid {
-  param($name, $directory)
+  param($path, $directory)
 
-  $manifestPath = if (Join-Path $_.FullName '.native' |
+  $name = $path.Name
+  $manifestPath = if (Join-Path $path.FullName '.native' |
                       Test-Path -PathType Container) {
-    Join-Path $_.FullName 'manifest.tpl.xml'
+    Join-Path $path.FullName 'manifest.tpl.xml'
   } else  {
-    Join-Path $_.FullName 'manifest.xml'
+    Join-Path $path.FullName 'manifest.xml'
   }
 
   if (-not (Test-Path -PathType Leaf $manifestPath)) {
@@ -78,14 +79,19 @@ function Test-ManifestValid {
   }
 }
 
-Get-ChildItem 'addons' |
-  ForEach-Object {
-    Test-ManifestValid $_.Name 'addons'
-  }
+$addons = Get-ChildItem 'addons' -Directory
+$libraries = Get-ChildItem 'libraries' -Directory
 
-Get-ChildItem 'libraries' |
-  ForEach-Object {
-    Test-ManifestValid $_.Name 'libraries'
-  }
+$addonNames = $addons | ForEach-Object { $_.Name }
+$libraryNames = $libraries | ForEach-Object { $_.Name }
+$duplicates = $addonNames | Where-Object { $libraryNames -contains $_ }
+if ($duplicates.Count -gt 0) {
+  Write-Host -ForegroundColor Red "Duplicate package names found:"
+  Write-Host -ForegroundColor Red "  * $($duplicates -join '`n  * ')"
+  $script:exitCode = 1
+}
+
+$addons | ForEach-Object { Test-ManifestValid $_ 'addons' }
+$libraries | ForEach-Object { Test-ManifestValid $_ 'libraries' }
 
 exit $exitCode
