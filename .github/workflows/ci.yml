@@ -18,7 +18,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Validate package manifests
-      run: .github/workflows/check-manifests
+      run: .github/scripts/check-manifests
   syntax_check:
     name: Validate Syntax
     runs-on: windows-2019
@@ -31,7 +31,7 @@ jobs:
         path: .tools
       uses: actions/checkout@v2
     - name: Validate Lua syntax
-      run: .github/workflows/check-syntax
+      run: .github/scripts/check-syntax
   version_check:
     name: Check Version
     runs-on: windows-2019
@@ -42,4 +42,22 @@ jobs:
       with:
         fetch-depth: 2
     - name: Check version numbers
-      run: .github/workflows/check-versions
+      run: .github/scripts/check-versions
+  build:
+    name: Build
+    runs-on: windows-2019
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Stage files
+      run: .github/scripts/stage-files
+    - name: Build native binaries
+      run: .github/scripts/build-native-binaries
+    - name: Build package index
+      run: .github/scripts/build-package-index
+    - name: Upload build artifacts
+      if: github.event_name == 'push'
+      uses: actions/upload-artifact@v2
+      with:
+        name: binaries
+        path: .staging/
