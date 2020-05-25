@@ -89,7 +89,7 @@ jobs:
           name: packages
           path: .staging
       - name: Deploy to server
-        run: .github/workflows/deploy
+        run: .github/scripts/deploy
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
