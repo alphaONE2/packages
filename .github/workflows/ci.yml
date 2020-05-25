@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: packages
-          path: .staging/
+          path: .staging
   deploy:
     name: Deploy
     needs: build
@@ -86,7 +86,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v2
         with:
-          name: binaries
+          name: packages
           path: .staging
       - name: Deploy to server
         run: .github/workflows/deploy
